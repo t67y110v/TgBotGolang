@@ -21,6 +21,15 @@ type BotMessage struct {
 	ChatId int    `json:"chat_id"`
 	Text   string `json:"text"`
 }
+type TranslatedText struct {
+	Tx string `json:"translatedText"`
+}
+
+type Translate struct {
+	Tex  string `json:"q"`
+	Src  string `json:"source"`
+	Trgt string `json:"target"`
+}
 
 /////////////////////////////////////////
 /*type RestResponse2 struct {
