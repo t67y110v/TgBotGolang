@@ -31,13 +31,12 @@ type Translate struct {
 	Trgt string `json:"target"`
 }
 
-/////////////////////////////////////////
-/*type RestResponse2 struct {
-	 Items []Item `json:"items"`
+type RestResponse2 struct {
+	Items []Item `json:"items"`
 }
 type Item struct {
-	Id []ItemInfo `json:"id"`
+	Id ItemInfo `json:"id"`
 }
-type ItemInfo struct{
+type ItemInfo struct {
 	VideoId string `"json:videoId"`
-}*/
+}
