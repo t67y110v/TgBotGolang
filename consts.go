@@ -1,7 +1,7 @@
 package main
 
 const (
-	botToken   = "5283963650:AAFKHzoWB_yASZgIyVFYOfMeqFyR80XVzHk"
+	botToken   = ""
 	botApi     = "token"
 	RightAnsw  = "Да! Все верно!\nДля продолжения выполенения заданий используй комманду \n/ENGtaskList\n/GERtaskList"
 	WrongAnsw  = "Ответ неправльный, попробуй еще"
