@@ -5,8 +5,7 @@ import (
 	"strconv"
 )
 
-func ConvertByMatvei(text string) (int, int) {
-	s := "/ger_m1_task1"
+func ConvertByMatvei(s string) (int, int) {
 	first_int_in_str := ""
 	second_int_in_str := ""
 	if s[0:5] == "/en_m" {
@@ -14,12 +13,14 @@ func ConvertByMatvei(text string) (int, int) {
 			if is_digit(string(s[i])) {
 				first_int_in_str += string(s[i])
 			} else if first_int_in_str == "" {
+				//пользователь далбаёб
 				break
 			} else if s[i:i+5] == "_task" {
 				for i := i + 5; i < len(s); i++ {
 					if is_digit(string(s[i])) {
 						second_int_in_str += string(s[i])
-					} else {
+					} else if second_int_in_str == "" {
+						//пользовател ьдалбаёб
 						break
 					}
 				}
@@ -37,6 +38,7 @@ func ConvertByMatvei(text string) (int, int) {
 					if is_digit(string(s[i])) {
 						second_int_in_str += string(s[i])
 					} else if second_int_in_str == "" {
+						//пользователь далбаёб
 						break
 					}
 				}
@@ -46,7 +48,7 @@ func ConvertByMatvei(text string) (int, int) {
 	}
 	fmt.Println(first_int_in_str, second_int_in_str)
 	a, err1 := strconv.Atoi(first_int_in_str)
-	b, err2 := strconv.Atoi(first_int_in_str)
+	b, err2 := strconv.Atoi(second_int_in_str)
 	if err1 != nil || err2 != nil {
 		fmt.Println(err1, err2)
 	} else {

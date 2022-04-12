@@ -12,7 +12,7 @@ import (
 
 const (
 	YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
-	YOUTUBE_API_TOKEN  = ""
+	YOUTUBE_API_TOKEN  = "YT token"
 	YOUTUBE_VIDEO_URL  = "https://www.youtube.com/watch?v="
 )
 

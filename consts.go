@@ -1,8 +1,8 @@
 package main
 
 const (
-	botToken   = ""
-	botApi     = "https://api.telegram.org/bot"
+	botToken   = "5283963650:AAFKHzoWB_yASZgIyVFYOfMeqFyR80XVzHk"
+	botApi     = "token"
 	RightAnsw  = "Да! Все верно!\nДля продолжения выполенения заданий используй комманду \n/ENGtaskList\n/GERtaskList"
 	WrongAnsw  = "Ответ неправльный, попробуй еще"
 	YT_CH_URL1 = "https://www.youtube.com/channel/UCAzSfJ8mJ0A8v1oOK2lstPw"

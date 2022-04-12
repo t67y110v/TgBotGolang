@@ -4,16 +4,17 @@ import (
 	//"bolt"
 	"bytes"
 	"encoding/json"
-	"fmt"
+
+	//"fmt"
 	"net/http"
-	"strings"
+	//"strings"
 )
 
 func Respond(botUrl string, update Update) error {
 	var botMessage BotMessage
 	botMessage.ChatId = update.Message.Chat.ChatId
-	botMessage.Text = update.Message.Text
-	if botMessage.Text == "/start" {
+	botMessage.Text = getTask(update.Message.Text)
+	/*if botMessage.Text == "/start" {
 		fmt.Println("зашел  в старт")
 		botMessage.Text = "Привет! \nTы используешь интерактивного бота для тренировки навыка переводчика!! \nСписок доступных команд\n/commands\n\n "
 	} else if strings.ToLower(botMessage.Text) == "/commands" {
@@ -29,15 +30,15 @@ func Respond(botUrl string, update Update) error {
 		fmt.Println("зашел  в таксклист")
 		botMessage.Text = "Английский язык\nЗадания первого модуля : переведите фразеологизм \n/en_m1_task1  \n/en_m1_task2  \n/en_m1_task3  \nЗадания второго модуля : перевод слова в зависимости от контекста \n/en_m2_task1  \n/en_m2_task2  \n/en_m2_task3 \n/en_m2_task4 \nЗадания третьего модуля : еревод фразы одним словом \n/en_m3_task1  \n/en_m3_task2  \n/en_m3_task3\n Задания четвертого  модуля : вставить подходящее по смыслу слово \n/en_m4_task1  \n/en_m4_task2  \n/en_m4_task3 \nЗадания пятого модуля : перевод фразы не нарушая лексическую сочетаемость \n/en_m5_task1  \n/en_m5_task2  \n/en_m5_task3\nЗадания общего модуля, для тренировки концентрации - Таблица Шульте: \nмаксимально быстро сосчитать по квадратам от 1 до максимально числа \n/m_task1\n/m_task2\n/m_task3\n/m_task4"
 	} else if strings.ToLower(botMessage.Text) == "/en_m2_task1" {
-		botMessage.Text = "Модуль 2\n Задание 1 \nНапишите перевод  выделенного /***/ слова в заданном контексте \nHer room is /minute/."
+		botMessage.Text = "Модуль 2\n Задание 1 \nНапишите перевод  выделенного | | слова в заданном контексте \nHer room is |minute|."
 	} else if strings.ToLower(botMessage.Text) == "маленькая" || strings.ToLower(botMessage.Text) == "крошечная" || strings.ToLower(botMessage.Text) == "маленький" || strings.ToLower(botMessage.Text) == "крошечный" {
 		botMessage.Text = RightAnsw
 	} else if botMessage.Text == "/en_m2_task2" {
-		botMessage.Text = "Модуль 2 \nЗадание 2 \nНапишите перевод  выделенного /***/ слова в заданном контексте \nI /refuse/ to take out refuse."
+		botMessage.Text = "Модуль 2 \nЗадание 2 \nНапишите перевод  выделенного | |слова в заданном контексте \nI |refuse| to take out refuse."
 	} else if strings.ToLower(botMessage.Text) == "отказываюсь" {
 		botMessage.Text = RightAnsw
 	} else if strings.ToLower(botMessage.Text) == "/en_m2_task3" {
-		botMessage.Text = "Модуль 2 \nЗадание 3 \nНапишите перевод  выделенного /***/ слова в заданном контексте \nI refuse to take out /refuse/."
+		botMessage.Text = "Модуль 2 \nЗадание 3 \nНапишите перевод  выделенного | | слова в заданном контексте \nI refuse to take out /refuse/."
 	} else if strings.ToLower(botMessage.Text) == "мусор" {
 		botMessage.Text = RightAnsw
 	} else if strings.ToLower(botMessage.Text) == "/en_m3_task1" {
@@ -260,8 +261,6 @@ func Respond(botUrl string, update Update) error {
 		}
 		botMessage.Text = "der Zentner — в немецком и русском языках отличается мера веса (центнер). В немецком это масса, равная 50 кг, в русском — 100 кг.\ndas Glas — стакан, рюмка или просто стекло, а не “глаз” — das Auge.\nder Dom – означает в немецком языке собор, а не “дом” - das Haus.\ndie Krawatte — галстук, а не “кровать” — das Bett\n	reklamieren — предъявлять претензии, жалобы, а не “рекламировать” — werben.\ndas Wetter — погода, а не “ветер” — der Wind.\ndie Angel — удочка, a не (ангел) — der Engel.\ndie Dose — банка, штепсельная розетка, а не (доза) — die Dosis.\nder Führer — не только (должность) Гитлера, но также вождь, командир, машинист, вагоновожатый, капитан спортивной команды.\ndas Glück — счастье, благополучие, удача, успех, а не (глюк) в значении (галлюцинация) — die Halluzination/die Wahnvorstellung.\nder Tank — это вовсе и не (танк), а всего лишь (бак) или (цистерна), “танк” по-немецки - der Panzer.\nder Panzer - не только “панцирь”, а также танк\ndas Magazin — (журнал), а не магазин - das Geschäft."
 
-	} else if strings.ToLower(botMessage.Text[:4]) == "/tra" {
-		botMessage.Text = translateFunction(botMessage.Text[:4])
 	} else if strings.ToLower(botMessage.Text) == "/inf_playlists" {
 		botMessage.Text = "Плейлист “Инструменты переводчика”\nhttps://youtube.com/playlist?list=PL7F-BAOq1U91t4u3Uc4b_UZbpJ3Lg5Ypq\nПлейлист “Упражнения для перевода”\nhttps://youtube.com/playlist?list=PL7F-BAOq1U90JZDKkz6MXEZSGzMY1jwaL\nПлейлист “Теория перевода”\nhttps://youtube.com/playlist?list=PL7F-BAOq1U91VGBq318fwrzfTYJsGkGun\nПлейлист “Устный перевод”\nhttps://youtube.com/playlist?list=PL7F-BAOq1U91A4buZYukp4kKOjwf4MLFr\nПлейлист “Письменный перевод”\nhttps://youtube.com/playlist?list=PL7F-BAOq1U910Ozt6zHZuSWoNBwLD5tWZ\n"
 	} else if strings.ToLower(botMessage.Text[:4]) == "http" {
@@ -290,8 +289,8 @@ func Respond(botUrl string, update Update) error {
 		botMessage.Text = videoUrl
 	} else {
 		fmt.Println("написали не  что то не то ")
-		botMessage.Text = "ой.. не могу понять твой ответ, проверь правильность написания ответа, либо обратись к списку команд :/commands или к списку заданий :/ENGtaskList"
-	}
+		botMessage.Text = "ой.. не могу понять твой ответ\n Проверь правильность написания ответа, либо обратись к списку команд: \n/commands \nИли найди способ решения прочитав справочную информацию.\n/information"
+	}*/
 	buf, err := json.Marshal(botMessage)
 	if err != nil {
 		return err
