@@ -12,17 +12,16 @@ import (
 
 const (
 	YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
-	YOUTUBE_API_TOKEN  = "YT token"
 	YOUTUBE_VIDEO_URL  = "https://www.youtube.com/watch?v="
 )
 
 func GetLast(channelUrl string) (string, error) {
 	items, err := retriveVideos(channelUrl)
 	if err != nil {
-		return "nil", err
+		return "eror", err
 	}
 	if len(items) < 1 {
-		return "", errors.New("no video found")
+		return "Oops smth went wrong", errors.New("no video found")
 	}
 	return YOUTUBE_VIDEO_URL + items[0].Id.VideoId, nil
 }

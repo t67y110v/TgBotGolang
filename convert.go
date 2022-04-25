@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func ConvertByMatvei(s string) (int, int) {
+func Convert(s string) (int, int) {
 	first_int_in_str := ""
 	second_int_in_str := ""
 	if s[0:5] == "/en_m" {
@@ -13,14 +13,12 @@ func ConvertByMatvei(s string) (int, int) {
 			if is_digit(string(s[i])) {
 				first_int_in_str += string(s[i])
 			} else if first_int_in_str == "" {
-				//пользователь далбаёб
 				break
 			} else if s[i:i+5] == "_task" {
 				for i := i + 5; i < len(s); i++ {
 					if is_digit(string(s[i])) {
 						second_int_in_str += string(s[i])
 					} else if second_int_in_str == "" {
-						//пользовател ьдалбаёб
 						break
 					}
 				}
@@ -38,7 +36,6 @@ func ConvertByMatvei(s string) (int, int) {
 					if is_digit(string(s[i])) {
 						second_int_in_str += string(s[i])
 					} else if second_int_in_str == "" {
-						//пользователь далбаёб
 						break
 					}
 				}
