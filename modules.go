@@ -9,3 +9,7 @@ type Item struct {
 type ItemInfo struct {
 	VideoId string `json:"videoId"`
 }
+type User struct {
+	userID   int64
+	userName string
+}

@@ -3,17 +3,22 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 func main() {
-	fmt.Println("Hello world!")
+
+	u1 := new(User)
+	u2 := new(User)
+	var flag = false
+	var countOfUsers = false
+	fmt.Println("Bot is up!")
 	bot, err := tgbotapi.NewBotAPI(BotToken)
 	if err != nil {
 		fmt.Println("Error with Bot Api")
 	}
-
 	bot.Debug = true
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 	u := tgbotapi.NewUpdate(0)
@@ -22,14 +27,43 @@ func main() {
 	updateConfig.Timeout = 30
 	var pseudoRand = len(GerAudios) + 1
 	updates := bot.GetUpdatesChan(updateConfig)
-
 	for update := range updates {
 		if pseudoRand == 1 || pseudoRand < 1 {
 			pseudoRand = len(GerAudios) + 1
 		}
 		if update.Message != nil {
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+			if update.Message.Text == "🙅‍♂️Прекратить общение" {
+				flag = false
+			}
+			if flag {
+				if update.Message.From.ID == u1.userID {
+					update.Message.Chat.ID = u2.userID
+					update.Message.From.FirstName = u2.userName
+					sm(update, bot, update.Message.Text)
+					continue
+				} else if update.Message.From.ID == u2.userID {
+					update.Message.Chat.ID = u1.userID
+					update.Message.From.FirstName = u1.userName
+					sm(update, bot, update.Message.Text)
+					continue
+				}
+			}
 			switch update.Message.Text {
+			case "👥Поиск собеседника":
+				if !countOfUsers {
+					countOfUsers = true
+					tx := "ожидание собеседника.."
+					sm(update, bot, tx)
+					u1.userID = update.Message.From.ID
+					u1.userName = update.Message.From.FirstName
+				} else if countOfUsers {
+					countOfUsers = false
+					flag = true
+					tx := "Собеседник найден!"
+					sm(update, bot, tx)
+					u2.userID = update.Message.From.ID
+					u2.userName = update.Message.From.FirstName
+				}
 			case "/open":
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
 				msg.ReplyMarkup = numericKeyboardOpe
@@ -44,18 +78,39 @@ func main() {
 				if _, err := bot.Send(msg); err != nil {
 					log.Panic(err)
 				}
-			case "123":
-				tx := "123"
-				msg.Text = tx
+			case "🌍В меню":
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+				msg.ReplyMarkup = numericKeyboardOpe
+				msg.Text = "Панель команд открыта!\n Чтобы закрыть ее напиши /close"
+				if _, err := bot.Send(msg); err != nil {
+					log.Panic(err)
+				}
+			case "📝Английский язык":
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+				msg.ReplyMarkup = numericKeyboardEng
+				msg.Text = "Команды английского языка!\n Чтобы вернуться в меню нажми \n🌍В меню"
+				if _, err := bot.Send(msg); err != nil {
+					log.Panic(err)
+				}
+			case "📝Немецкие язык":
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+				msg.ReplyMarkup = numericKeyboardGer
+				msg.Text = "Команды Немецкого языка!\n Чтобы вернуться в меню нажми \n🌍В меню"
+				if _, err := bot.Send(msg); err != nil {
+					log.Panic(err)
+				}
 			}
 			pseudoRand--
 			test := update.Message.Text
-			if test[:4] == "/en_" {
+			if strings.HasPrefix(test, "/en_") {
 				tx := update.Message.Text
 				sm(update, bot, getTask(tx))
-			} else if test[:5] == "/ger_" {
+			} else if strings.HasPrefix(test, "/ger_") {
 				tx := update.Message.Text
 				sm(update, bot, getTask(tx))
+			} else if strings.HasPrefix(test, "/tr") {
+				tx := "отказываться"
+				sm(update, bot, tx)
 			}
 			if val, ok := answ[test]; ok {
 				sm(update, bot, val)
@@ -74,11 +129,7 @@ func main() {
 			/inf_playlists - Плейлисты с теорией и упраженниями`
 				sm(update, bot, tx)
 			case "🔎Команды":
-				tx := `"/engtaskList - список модулей английского языка
-				/gertasklist - список модулей немецкого языка
-				/information -  список справочной информации необходимой для успешного  решения задач из  модулей 
-				Для просмотра последних видео с каналов обучающих переводу :
-				/yt"`
+				tx := "📝Английский язык - изучение английского языка\n📝Немецкие язык - список модулей немецкого языка\n📚Информация -  список справочной информации необходимой для успешного  решения задач из  модулей \n👥Поиск собеседника - поиск собеседника для практики общения\n📈Статистика - Для просмотра своей статистики\n"
 				sm(update, bot, tx)
 			case "📝Немецкие задания":
 				tx := `Немецкий язык
@@ -142,26 +193,7 @@ func main() {
 				sm(update, bot, tx)
 			case "🎧Английская речь":
 				SendEnAudio(update, bot, EnAudios[pseudoRand], pseudoRand)
-			case "/yt":
-				videoUrl, err := GetLast(ytChannels[1])
-				if err != nil {
-					videoUrl = "oops"
-				}
-				sm(update, bot, videoUrl)
 			}
-		} else if update.CallbackQuery != nil {
-			callback := tgbotapi.NewCallback(update.CallbackQuery.ID, update.CallbackQuery.Data)
-			if _, err := bot.Request(callback); err != nil {
-				panic(err)
-			}
-			pseudoRand--
-			pseudoRand--
-			msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Data)
-			if _, err := bot.Send(msg); err != nil {
-				panic(err)
-			}
-
 		}
-
 	}
 }

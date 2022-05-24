@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func Convert(s string) (int, int) {
 	first_int_in_str := ""
 	second_int_in_str := ""
-	if s[0:5] == "/en_m" {
+	if strings.HasPrefix(s, "/en_m") {
 		for i := 5; i < len(s); i++ {
 			if is_digit(string(s[i])) {
 				first_int_in_str += string(s[i])
@@ -25,7 +26,7 @@ func Convert(s string) (int, int) {
 				break
 			}
 		}
-	} else if s[0:6] == "/ger_m" {
+	} else if strings.HasPrefix(s, "/ger_m") {
 		for i := 6; i < len(s); i++ {
 			if is_digit(string(s[i])) {
 				first_int_in_str += string(s[i])

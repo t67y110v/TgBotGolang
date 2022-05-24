@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 var task_description = map[string]string{
@@ -60,12 +61,11 @@ func getTask(mes string) string {
 	return readyMes
 }
 func get_language(s string) string {
-	if s[:5] == "/en_m" {
+	if strings.HasPrefix(s, "/en_m") {
 		return "en"
-	} else if s[:6] == "/ger_m" {
+	} else if strings.HasPrefix(s, "/ger_m") {
 		return "ger"
 	} else {
-		fmt.Println("Я не понял")
-		return ""
+		return "en"
 	}
 }
