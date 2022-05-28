@@ -9,18 +9,10 @@ var NumericKeyboardOpe = tgbotapi.NewReplyKeyboard(
 		tgbotapi.NewKeyboardButton("🔎Команды"),
 		tgbotapi.NewKeyboardButton("📚Информация"),
 	), tgbotapi.NewKeyboardButtonRow(
-		tgbotapi.NewKeyboardButton("📈Статистика"),
-	), tgbotapi.NewKeyboardButtonRow(
 		tgbotapi.NewKeyboardButton("📝Английский язык"),
 	),
 	tgbotapi.NewKeyboardButtonRow(
 		tgbotapi.NewKeyboardButton("📝Немецкие язык"),
-	),
-	tgbotapi.NewKeyboardButtonRow(
-		tgbotapi.NewKeyboardButton("👥Поиск собеседника"),
-	),
-	tgbotapi.NewKeyboardButtonRow(
-		tgbotapi.NewKeyboardButton("🙅‍♂️Прекратить общение"),
 	),
 )
 var NumericKeyboardEng = tgbotapi.NewReplyKeyboard(

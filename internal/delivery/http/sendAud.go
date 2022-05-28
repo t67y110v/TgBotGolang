@@ -6,6 +6,17 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
+var pseudoRand = 2
+
+func SendAu(update tgbotapi.Update, b *tgbotapi.BotAPI) {
+
+	if pseudoRand == 0 {
+		pseudoRand = 2
+	}
+	SendEnAudio(update, b, rep.EnAudios[pseudoRand], pseudoRand)
+	pseudoRand--
+}
+
 func SendEnAudio(update tgbotapi.Update, bot *tgbotapi.BotAPI, file tgbotapi.FilePath, i int) {
 
 	switch i {
