@@ -1,17 +1,19 @@
 package app
 
 import (
+	bDB "goBot/repository/bDB"
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 type Bot struct {
-	bot *tgbotapi.BotAPI
+	bot         *tgbotapi.BotAPI
+	informRepos bDB.InformRepos
 }
 
-func NewBot(bot *tgbotapi.BotAPI) *Bot {
-	return &Bot{bot: bot}
+func NewBot(bot *tgbotapi.BotAPI, informRepos bDB.InformRepos) *Bot {
+	return &Bot{bot: bot, informRepos: informRepos}
 }
 
 func (b *Bot) Start() error {
