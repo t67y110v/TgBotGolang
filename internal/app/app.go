@@ -14,6 +14,10 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
+type Bot struct {
+	bot *tgbotapi.BotAPI
+}
+
 func Run() {
 
 	u1 := new(User)
