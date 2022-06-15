@@ -12,6 +12,25 @@ type InformRepos struct {
 	db *bolt.DB
 }
 
+func InitBoltDB() (*bolt.DB, error) {
+	db, err := bolt.Open("bot.db", 0600, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := db.Update(func(tx *bolt.Tx) error {
+		_, err := tx.CreateBucketIfNotExists([]byte(bDB.Information))
+		if err != nil {
+			return err
+		}
+		return nil
+	}); err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}
+
 func NewInformRepos(db *bolt.DB) *InformRepos {
 	return &InformRepos{db: db}
 }

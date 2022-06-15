@@ -20,7 +20,7 @@ type RefreshToken struct {
 var collection *mongo.Collection
 var ctx = context.TODO()
 
-func InitDB() {
+func InitMongoDB() {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/")
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {

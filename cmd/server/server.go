@@ -26,7 +26,7 @@ var errorLog = log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 func main() {
 	infoLog.Printf("Соединение с БД")
-	InitDB()
+	InitMongoDB()
 	r := mux.NewRouter()
 	r.Handle("/api/get-token", GetTokensHandler).Methods("POST")
 	r.Handle("/api/refresh-token", RefreshTokenHandler).Methods("PUT")

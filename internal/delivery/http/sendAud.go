@@ -1,7 +1,7 @@
 package http
 
 import (
-	rep "goBot/repository/textdata"
+	rep "goBot/repository/audiodata"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
