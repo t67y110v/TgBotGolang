@@ -4,7 +4,7 @@ import (
 	. "goBot/internal/delivery/http"
 	//. "goBot/internal/modules"
 	. "goBot/internal/service"
-	bDB "goBot/repository/bDB"
+	bDB "goBot/repository/DB"
 	. "goBot/repository/textdata"
 	"log"
 	"strings"
@@ -23,9 +23,6 @@ func (b *Bot) handlerCommand(message *tgbotapi.Message) {
 	case commandStart:
 		tx := "Привет! \nTы используешь интерактивного бота для тренировки навыка переводчика!! \nНажми\n/open\nДля открытия панели кнопок\n "
 		Sm(message, b.bot, tx)
-		if err := b.informRepos.Save(message.Chat.ID, "123", bDB.Information); err != nil {
-			log.Panic(err)
-		}
 	case commandOpen:
 		msg := tgbotapi.NewMessage(message.Chat.ID, message.Text)
 		msg.ReplyMarkup = NumericKeyboardOpe
@@ -80,6 +77,9 @@ func (b *Bot) handlerMessage(message *tgbotapi.Message, update tgbotapi.Update) 
 	}
 	if val, ok := Answ[message.Text]; ok {
 		Sm(message, b.bot, val)
+		if err := b.informRepos.Save(message.Chat.ID, "correct", bDB.Information); err != nil {
+			log.Panic(err)
+		}
 	}
 	switch message.Text {
 	case "📚Информация":

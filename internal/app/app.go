@@ -1,7 +1,7 @@
 package app
 
 import (
-	bDB "goBot/repository/bDB"
+	bDB "goBot/repository/DB"
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	. "goBot/config"
 	"goBot/internal/app"
-	bDB "goBot/repository/bDB"
-	"goBot/repository/bDB/boltdb"
+	bDB "goBot/repository/DB"
+	"goBot/repository/DB/boltdb"
 	"log"
 
 	"github.com/boltdb/bolt"

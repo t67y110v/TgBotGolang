@@ -2,7 +2,7 @@ package boltdb
 
 import (
 	"errors"
-	bDB "goBot/repository/bDB"
+	bDB "goBot/repository/DB"
 	"strconv"
 
 	"github.com/boltdb/bolt"
